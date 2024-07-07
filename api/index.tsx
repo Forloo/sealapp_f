@@ -2,35 +2,46 @@ import { Button, Frog } from 'frog'
 import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
 import { handle } from 'frog/vercel'
-import {addUserKey, getStats, userVoted} from "./vercel_endpoints/requests.js"
+import {addUserKey, getStats, userVoted, userValue} from "./vercel_endpoints/requests.js"
 import { createSystem } from 'frog/ui'
 
-// Uncomment to use Edge Runtime.
-// export const config = {
-//   runtime: 'edge',
-// }
 const { Box } = createSystem()
 
 export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
   title: 'main'
-  // Supply a Hub to enable frame verification.
-  // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
 })
 
-// const [userLoggedIn, userid] = getProfile()
-
 app.frame('/', async (c) => {
-  const { buttonValue, inputText, status } = c
-  const fruit = inputText || buttonValue
-  
+  const { frameData, buttonValue, status } = c
 
-  // const cur_usr_voted = userLoggedIn ? await userVoted(userid!.toString()) : false // assume user has logged in
-  const cur_usr_voted = await userVoted("someuser")
-  if (buttonValue === "Yes"){
-    await addUserKey("someuser", true);
+  let cur_usr_voted : boolean = false
+  let usrid : undefined | string = undefined
+  
+  if (frameData && frameData.fid){
+    usrid = frameData!.fid.toString()
+    cur_usr_voted = await userVoted(usrid)
   }
+
+  if (buttonValue === "Yes"){
+    if (usrid !== undefined){
+      addUserKey(usrid, true);
+    }
+  } else {
+    if (usrid !== undefined){
+      addUserKey(usrid, false);
+    }
+  }
+
+  let usrVote = "No";
+  if (usrid !== undefined){
+    const val = await userValue(usrid!)
+    if (val){
+      usrVote = "Yes";
+    }
+  }
+  
 
   return c.res({
     image: (
@@ -64,17 +75,14 @@ app.frame('/', async (c) => {
           }}
         >
           {cur_usr_voted
-            ? "You already voted"
-            : "There will be over a 10,000 Kramer predictions before 7/29 midnight"}
+            ? 'You already voted' + '"' + usrVote +'"'
+            : "There will be over a 10,000 Kramer predictions before 7/29 midnight "}
         </div>
       </div>
     ),
     intents: [
-      // <TextInput placeholder="Enter custom fruit..." />,
       <Button value="Yes" action='/resultScreen'>Yes</Button>,
       <Button value="No" action='/resultScreen'>No</Button>,
-      // <Button value="bananas">Bananas</Button>,
-      // status === 'response' && <Button.Reset>Reset</Button.Reset>,
     ],
   })
 })
@@ -125,10 +133,9 @@ app.frame('/resultScreen', async (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          numYes {numYes} and numNos {numNo}
+          Yes: {numYes}  No: {numNo}
         </div>
       </Box>
-         
       </div>
       
       ),

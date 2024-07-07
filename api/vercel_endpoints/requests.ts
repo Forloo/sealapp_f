@@ -1,5 +1,5 @@
 import { kv } from '@vercel/kv';
-import { useProfile } from "@farcaster/auth-kit";
+// import { useProfile } from "@farcaster/auth-kit";
 
 /**
  * @param userid id of the user
@@ -15,6 +15,19 @@ export async function userVoted(userid : string){
     } catch (error){
         console.log(error);
     }
+    return false;
+}
+
+export async function userValue(userid : string){
+    try {
+        const exists = await kv.get(userid);
+        if (exists !== undefined){
+            return exists;
+        }
+    } catch (error){
+        console.log(error);
+    }
+    return false;
 }
 
 /**
@@ -61,16 +74,12 @@ export async function getStats(){
 }
 
 
-/**
- * 
- * @returns true or false to indicate the user's authorization
- * and the user's unique id.
- */
-export function getProfile() {
-    const profile = useProfile();
-    const {
-      isAuthenticated,
-      profile: { fid },
-    } = profile;
-    return [isAuthenticated, fid];
-  }
+// /**
+//  * 
+//  * @returns true or false to indicate the user's authorization
+//  * and the user's unique id.
+//  */
+// export function getProfile() {
+    
+//     return [isAuthenticated, fid];
+//   }
