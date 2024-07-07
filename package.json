@@ -8,12 +8,14 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "@farcaster/auth-kit": "^0.3.1",
+    "@vercel/kv": "^2.0.0",
     "frog": "latest",
     "hono": "^4"
   },
   "devDependencies": {
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
-    "vercel": "^32.4.1"
+    "vercel": "^32.3.0"
   }
 }
