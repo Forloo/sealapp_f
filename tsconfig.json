@@ -15,7 +15,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    "outDir": "./dist",
+    "rootDir": "./api",
     "types": ["frog/client"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.mtsx", "/api"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.mtsx", "api/**/*.ts", "api/**/*.tsx"]
 }
