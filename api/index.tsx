@@ -2,12 +2,11 @@ import { Button, Frog } from 'frog'
 import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
 import { handle } from 'frog/vercel'
-import {addUserKey, getStats, userVoted, userValue} from "./vercel_endpoints/requests.js"
 import { createSystem } from 'frog/ui' 
 import { env } from 'node:process';
-import { textComponent, 
-  backgroundImage, outerComponentStyle, 
-  pollResultStatsStyle, textStyle} from './utility.js'
+import { kv } from '@vercel/kv';
+
+const backgroundOpacity = 0.1;
 
 //manually set vercel config variables
 env.KV_REST_API_URL = "https://modest-sawfly-54128.upstash.io"
@@ -162,3 +161,166 @@ devtools(app, isProduction ? { assetsPath: '/.frog' } : { serveStatic })
 
 export const GET = handle(app)
 export const POST = handle(app)
+
+
+
+export function textComponent(txt : string) {
+  return (
+  <>
+    <div style={textStyle}>
+    {txt}
+    </div>
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        display: 'flex',
+        height: '100%',
+        opacity: backgroundOpacity, 
+      }}>
+      <Image
+        objectFit="contain"
+        src="/public/dune.png"
+        width="100%"
+      />
+    </div>
+  </>
+  );
+}
+
+export function backgroundImage (){
+  return (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      display: 'flex',
+      height: '100%',
+      opacity: backgroundOpacity,
+    }}>
+    <Image
+    objectFit="contain"
+    src="/public/dune.png"
+    width="100%"
+    />
+  </div>
+  );
+}
+
+export const outerComponentStyle = {
+  alignItems: 'center',
+  backgroundSize: '100% 100%',
+  display: 'flex',
+  flexDirection: 'column',
+  flexWrap: 'nowrap',
+  height: '100%',
+  justifyContent: 'center',
+  textAlign: 'center',
+  width: '100%'
+}
+
+export const pollResultStatsStyle = {
+  color: 'white',
+  fontSize: 60,
+  display: 'flex',
+  fontStyle: 'normal',
+  letterSpacing: '-0.025em',
+  lineHeight: 1.4,
+  marginTop: 30,
+  position: 'relative',
+  justifyContent: 'center',
+  opacity: 1,
+  borderRadius: 15,
+}
+
+export const textStyle = {
+  color: 'black',
+  display: 'flex',
+  fontSize: 60,
+  fontStyle: 'bold',
+  letterSpacing: '-0.025em',
+  lineHeight: 1.4,
+  marginTop: 30,
+  padding: '0 120px',
+  whiteSpace: 'pre-wrap',
+}
+
+
+/**
+ * @param userid id of the user
+ * @returns true if user already voted, false otherwise
+ */
+export async function userVoted(userid : string){
+  try {
+      const exists = await kv.get(userid);
+      if (exists !== undefined){
+          return true;
+      }
+      return false;
+  } catch (error){
+      console.log(error);
+  }
+  return false;
+}
+
+/**
+* 
+* @param userid the unique id of the user
+* @returns the value stored in user's key
+*/
+export async function userValue(userid : string){
+  try {
+      const exists = await kv.get(userid);
+      if (exists !== undefined){
+          return exists;
+      }
+  } catch (error){
+      console.log(error);
+  }
+  return false;
+}
+
+/**
+* Function to add a new user key value pair to the database.
+* @param usrid id of the user
+* @param yes true if user voted, false otherwise
+*/
+export async function addUserKey(usrid : string, yes : boolean) {
+try {
+  await kv.set(usrid, yes);
+} catch (error) {
+  // Handle errors
+  console.log(error);
+}
+}
+
+/**
+* Function to return the stats of the poll.
+* 
+* @returns the number of yes's and number of no's of the poll
+*/
+export async function getStats(){
+  let cursor = '0';
+  let numYes = 0;
+  let numNo = 0;
+  try{
+      do {
+          const [nextCursor, keys] = await kv.scan(cursor);
+          for (const key of keys) {
+              const value = await kv.get(key);
+              if (value){
+                  numYes += 1;
+              } else {
+                  numNo += 1;
+              }
+          }
+          cursor = nextCursor;
+      } while (cursor !== '0');
+      return [numYes, numNo];
+  } catch (error) {
+      console.log(error);
+      return [0, 0]; 
+  }
+}
