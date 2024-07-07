@@ -7,8 +7,8 @@ import { createSystem } from 'frog/ui'
 import { env } from 'node:process';
 
 //manually set vercel config variables
-env.KV_REST_API_URL = "https://composed-kid-46183.upstash.io"
-env.KV_REST_API_TOKEN = "AbRnAAIncDEyZDRlNmVhNzRhNzE0ODNiODJlYzM3ZDEyNzJkNDZiOHAxNDYxODM"
+env.KV_REST_API_URL = "https://modest-sawfly-54128.upstash.io"
+env.KV_REST_API_TOKEN = "AdNwAAIncDE4NDRhZTg3ZTBiMTE0NTVlOWY0ZTNhNjIzYjU1MWRmOHAxNTQxMjg"
 
 //import built in components
 const { Box, Image } = createSystem()
@@ -82,7 +82,7 @@ app.frame('/justvoted', async (c) => {
             position: 'relative', 
           }}
         >
-          You have already voted "{usrVote}"
+          You have successfully voted "{usrVote}"
         </div>
         <div
           style={{
@@ -110,7 +110,7 @@ app.frame('/justvoted', async (c) => {
   })
 })
 
-app.frame('/poll', async (c) => {
+app.frame('/pollScreen', async (c) => {
   const { frameData, buttonValue} = c
 
   const fid = frameData
@@ -125,11 +125,11 @@ app.frame('/poll', async (c) => {
 
   if (buttonValue === "Yes"){
     if (usrid !== undefined){
-      addUserKey(usrid, true);
+      await addUserKey(usrid, true);
     }
   } else {
     if (usrid !== undefined){
-      addUserKey(usrid, false);
+      await addUserKey(usrid, false);
     }
   }
 
