@@ -5,6 +5,11 @@ import { handle } from 'frog/vercel'
 import {addUserKey, getStats, userVoted, userValue} from "./vercel_endpoints/requests.js"
 import { createSystem } from 'frog/ui'
 
+import { env } from 'node:process';
+
+//manually set
+env.KV_REST_API_URL = "https://composed-kid-46183.upstash.io"
+env.KV_REST_API_TOKEN = "AbRnAAIncDEyZDRlNmVhNzRhNzE0ODNiODJlYzM3ZDEyNzJkNDZiOHAxNDYxODM"
 
 const { Box, Image } = createSystem()
 
@@ -204,9 +209,10 @@ app.frame('/resultScreen', async (c) => {
   console.log(fid);
   const [numYes, numNo] = await getStats();
 
+  console.log(numYes);
   const totalVotes = numYes + numNo;
-  const yesPercentage = (numYes / totalVotes) * 200;
-  const noPercentage = (numNo / totalVotes) * 200;
+  const yesPercentage = (numYes / totalVotes) * 200 > 0 ? (numYes / totalVotes) * 200 : 500;
+  const noPercentage = (numNo / totalVotes) * 200 > 0 ? (numNo / totalVotes) * 200 : 500;
 
   return c.res({
     image: (
@@ -273,10 +279,11 @@ app.frame('/resultScreen', async (c) => {
                 lineHeight: 1.4,
                 marginTop: 30,
                 whiteSpace: 'pre-wrap',
-                width:noPercentage,
-                zIndex: 15,
+                // width: "100%",
+                width: noPercentage,
                 position: 'relative', 
                 borderRadius: 15,
+                zIndex: 15, 
               }}
             >
               <Box grow flexDirection='row' alignItems='center' justifyContent='center'>
@@ -284,8 +291,6 @@ app.frame('/resultScreen', async (c) => {
               </Box>
             </div>
           </Box>
-          
-          
           <div
             style={{
               position: 'absolute',

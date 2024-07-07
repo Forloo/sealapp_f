@@ -1,5 +1,4 @@
 import { kv } from '@vercel/kv';
-// import { useProfile } from "@farcaster/auth-kit";
 
 /**
  * @param userid id of the user
@@ -14,10 +13,16 @@ export async function userVoted(userid : string){
         return false;
     } catch (error){
         console.log(error);
+        console.log("error in user voted");
     }
     return false;
 }
 
+/**
+ * 
+ * @param userid the unique id of the user
+ * @returns the value stored in user's key
+ */
 export async function userValue(userid : string){
     try {
         const exists = await kv.get(userid);
@@ -26,6 +31,7 @@ export async function userValue(userid : string){
         }
     } catch (error){
         console.log(error);
+        console.log("error in userValue");
     }
     return false;
 }
@@ -41,6 +47,7 @@ export async function addUserKey(usrid : string, yes : boolean) {
   } catch (error) {
     // Handle errors
     console.log(error);
+    console.log("error in add user key");
   }
 }
 
@@ -55,7 +62,9 @@ export async function getStats(){
     let numNo = 0;
     try{
         do {
+            console.log("error in get Stats 0");
             const [nextCursor, keys] = await kv.scan(cursor);
+            console.log("error in get Stats 1");
             for (const key of keys) {
                 const value = await kv.get(key);
                 if (value){
@@ -69,17 +78,7 @@ export async function getStats(){
         return [numYes, numNo];
     } catch (error) {
         console.log(error);
+        console.log("error in get Stats");
         return [0, 0]; 
     }
 }
-
-
-// /**
-//  * 
-//  * @returns true or false to indicate the user's authorization
-//  * and the user's unique id.
-//  */
-// export function getProfile() {
-    
-//     return [isAuthenticated, fid];
-//   }
