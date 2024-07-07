@@ -1,5 +1,5 @@
 import { createSystem } from 'frog/ui' 
-import { backgroundOpacity } from './constants.js'
+import { backgroundOpacity } from './constants.js';
 
 const { Image } = createSystem()
 
