@@ -1,5 +1,4 @@
 import { kv } from '@vercel/kv';
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { useProfile } from "@farcaster/auth-kit";
 
 /**

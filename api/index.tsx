@@ -1,9 +1,8 @@
-import { Button, Frog, TextInput } from 'frog'
+import { Button, Frog } from 'frog'
 import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
-// import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel'
-import {addUserKey, getStats, userVoted, getProfile} from "./vercel_endpoints/requests.js"
+import {addUserKey, getStats, userVoted} from "./vercel_endpoints/requests.js"
 import { createSystem } from 'frog/ui'
 
 // Uncomment to use Edge Runtime.
@@ -28,7 +27,7 @@ app.frame('/', async (c) => {
   
 
   // const cur_usr_voted = userLoggedIn ? await userVoted(userid!.toString()) : false // assume user has logged in
-  const cur_usr_voted = true
+  const cur_usr_voted = await userVoted("someuser")
   if (buttonValue === "Yes"){
     await addUserKey("someuser", true);
   }
