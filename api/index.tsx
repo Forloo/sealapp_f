@@ -78,7 +78,7 @@ app.frame('/justvoted', async (c) => {
             marginTop: 30,
             padding: '0 120px',
             whiteSpace: 'pre-wrap',
-            zIndex: 15,
+
             position: 'relative', 
           }}
         >
@@ -91,7 +91,7 @@ app.frame('/justvoted', async (c) => {
             left: 0,
             display: 'flex',
             height: '100%',
-            zIndex: 0, 
+
             opacity: 0.3, 
           }}
         >
@@ -167,7 +167,7 @@ app.frame('/pollScreen', async (c) => {
             marginTop: 30,
             padding: '0 120px',
             whiteSpace: 'pre-wrap',
-            zIndex: 15,
+
             position: 'relative', 
           }}
         >
@@ -182,7 +182,7 @@ app.frame('/pollScreen', async (c) => {
             left: 0,
             display: 'flex',
             height: '100%',
-            zIndex: 0, 
+
             opacity: 0.3,
           }}
         >
@@ -258,7 +258,7 @@ app.frame('/resultScreen', async (c) => {
                 letterSpacing: '-0.025em',
                 lineHeight: 1.4,
                 marginTop: 30,
-                zIndex: 15,
+
                 width: yesPercentage,
                 position: 'relative',
                 justifyContent: 'center',
@@ -286,7 +286,7 @@ app.frame('/resultScreen', async (c) => {
                 width: noPercentage,
                 position: 'relative', 
                 borderRadius: 15,
-                zIndex: 15, 
+
               }}
             >
               <Box grow flexDirection='row' alignItems='center' justifyContent='center'>
@@ -302,7 +302,7 @@ app.frame('/resultScreen', async (c) => {
               display:'flex',
               height: '100%',
               width: '100%',
-              zIndex: 0, // Ensure image is below the text
+
               opacity: 0.3, 
             }}
           >
