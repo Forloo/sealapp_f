@@ -20,13 +20,15 @@ export const app = new Frog({
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
 })
 
+// const [userLoggedIn, userid] = getProfile()
+
 app.frame('/', async (c) => {
   const { buttonValue, inputText, status } = c
   const fruit = inputText || buttonValue
-  const [userLoggedIn, userid] = getProfile()
+  
 
-  const cur_usr_voted = userLoggedIn ? await userVoted(userid!.toString()) : false // assume user has logged in
-
+  // const cur_usr_voted = userLoggedIn ? await userVoted(userid!.toString()) : false // assume user has logged in
+  const cur_usr_voted = true
   if (buttonValue === "Yes"){
     await addUserKey("someuser", true);
   }
