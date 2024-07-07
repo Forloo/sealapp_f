@@ -6,6 +6,17 @@ import { createSystem } from 'frog/ui'
 import { env } from 'node:process';
 import { kv } from '@vercel/kv';
 
+/**
+ * IMPORTANT: Combined everything into one file as I experienced some config
+ * issues regarding typescript file import. This file worked fine when running
+ * "npm run dev". No warnings, no errors. When deploying, there were no errors
+ * in the log of Vercel KV. However, it could still not render the images for 
+ * some unknown reason. 
+ * This was the link I tried to test to prod server:
+ * https://sealappf-jason-ohs-projects-3067d511.vercel.app/api
+ * I added the "/api" to the link I was given and it never worked...
+ */
+
 const backgroundOpacity = 0.1;
 
 //manually set vercel config variables
