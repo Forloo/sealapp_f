@@ -134,12 +134,12 @@ app.frame('/resultScreen', async (c) => {
             There will be over a 10,000 Kramer predictions before 7/29 midnight
           </div>
           <Box grow flexDirection='row' alignItems='center' marginTop= '30' >
-            <div style={{...pollResultStatsStyle, width: yesPercentage}}>
+            <div style={{...pollResultStatsStyle, width: yesPercentage, background: 'darkgreen'}}>
               <Box grow flexDirection='row' alignItems='center' justifyContent='center'>
                 {numYes}
               </Box>
             </div>
-            <div style={{...pollResultStatsStyle, width: noPercentage}}>
+            <div style={{...pollResultStatsStyle, width: noPercentage, background: 'darkred'}}>
               <Box grow flexDirection='row' alignItems='center' justifyContent='center'>
                 {numNo}
               </Box>

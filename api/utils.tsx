@@ -62,7 +62,6 @@ export const outerComponentStyle = {
 
 export const pollResultStatsStyle = {
   color: 'white',
-  background: 'darkgreen',
   fontSize: 60,
   display: 'flex',
   fontStyle: 'normal',
