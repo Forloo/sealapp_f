@@ -4,34 +4,37 @@ import { serveStatic } from 'frog/serve-static'
 import { handle } from 'frog/vercel'
 import {addUserKey, getStats, userVoted, userValue} from "./vercel_endpoints/requests.js"
 import { createSystem } from 'frog/ui'
-
 import { env } from 'node:process';
 
-//manually set
+//manually set vercel config variables
 env.KV_REST_API_URL = "https://composed-kid-46183.upstash.io"
 env.KV_REST_API_TOKEN = "AbRnAAIncDEyZDRlNmVhNzRhNzE0ODNiODJlYzM3ZDEyNzJkNDZiOHAxNDYxODM"
 
+//import built in components
 const { Box, Image } = createSystem()
 
+//initialize app and routes
 export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
   title: 'main',
 })
 
+//the root route
 app.frame('/', async (c) => {
   return c.res({
     image: <Image
       objectFit="contain"
-      src="/public/desert.png"
+      src="/public/dune.png"
       width="100%"
     />,
     intents: [
-      <Button value="result" action='/poll'>Enter Poll</Button>,
+      <Button value="enterpoll" action='/pollScreen'>Enter Poll</Button>,
     ],
   })
 })
 
+//route rendering after just voting
 app.frame('/justvoted', async (c) => {
   const { frameData} = c
 
@@ -94,7 +97,7 @@ app.frame('/justvoted', async (c) => {
         >
           <Image
             objectFit="contain"
-            src="/public/desert.png"
+            src="/public/dune.png"
             width="100%"
           />
         </div>
@@ -185,7 +188,7 @@ app.frame('/poll', async (c) => {
         >
           <Image
             objectFit="contain"
-            src="/public/desert.png"
+            src="/public/dune.png"
             width="100%"
           />
         </div>
@@ -206,10 +209,10 @@ app.frame('/resultScreen', async (c) => {
   const { frameData } = c;
   const fid = frameData;
 
-  console.log(fid);
+
   const [numYes, numNo] = await getStats();
 
-  console.log(numYes);
+
   const totalVotes = numYes + numNo;
   const yesPercentage = (numYes / totalVotes) * 200 > 0 ? (numYes / totalVotes) * 200 : 500;
   const noPercentage = (numNo / totalVotes) * 200 > 0 ? (numNo / totalVotes) * 200 : 500;
@@ -305,7 +308,7 @@ app.frame('/resultScreen', async (c) => {
           >
             <Image
             objectFit="contain"
-            src="/public/desert.png"
+            src="/public/dune.png"
             width="100%"
           />
           </div>
