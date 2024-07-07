@@ -7,7 +7,7 @@ import { createSystem } from 'frog/ui'
 import { env } from 'node:process';
 import { textComponent, 
   backgroundImage, outerComponentStyle, 
-  pollResultStatsStyle, textStyle} from './utility.tsx'
+  pollResultStatsStyle, textStyle} from './utility.js'
 
 //manually set vercel config variables
 env.KV_REST_API_URL = "https://modest-sawfly-54128.upstash.io"
