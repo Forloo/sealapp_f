@@ -18,7 +18,7 @@ app.frame('/', async (c) => {
   return c.res({
     image: <Image
       objectFit="contain"
-      src="/public/dune.png"
+      src="/public/desert.png"
       width="100%"
     />,
     intents: [
@@ -89,7 +89,7 @@ app.frame('/justvoted', async (c) => {
         >
           <Image
             objectFit="contain"
-            src="/public/dune.png"
+            src="/public/desert.png"
             width="100%"
           />
         </div>
@@ -180,7 +180,7 @@ app.frame('/poll', async (c) => {
         >
           <Image
             objectFit="contain"
-            src="/public/dune.png"
+            src="/public/desert.png"
             width="100%"
           />
         </div>
@@ -300,7 +300,7 @@ app.frame('/resultScreen', async (c) => {
           >
             <Image
             objectFit="contain"
-            src="/public/dune.png"
+            src="/public/desert.png"
             width="100%"
           />
           </div>
